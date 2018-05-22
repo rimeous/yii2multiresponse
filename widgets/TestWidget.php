@@ -22,7 +22,7 @@ class TestWidget extends AbstractWidget
      */
     public static function getUrl(): string
     {
-        return 'ws://socket-test.loc:3081';
+        return 'ws://socket-test.loc:5005';
     }
 
     /**

@@ -20,6 +20,12 @@ use yii\queue\Queue;
 abstract class AbstractWidget extends Widget
 {
     /**
+     * WSServer
+     * @var Client|null
+     */
+    public static $wsServer = null;
+
+    /**
      * Конфиг для фронтенда
      * @var array
      */
@@ -162,8 +168,10 @@ abstract class AbstractWidget extends Widget
      */
     public static function sendMessage($message, string $token): void
     {
-        $client = new Client(static::getUrl());
-        $client->send(json_encode([
+        if (!self::$wsServer instanceof Client) {
+            self::$wsServer = new Client(static::getUrl());
+        }
+        self::$wsServer->send(json_encode([
             'action' => 'chat',
             'message' => $message,
             'token' => $token
