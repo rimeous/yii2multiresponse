@@ -49,8 +49,8 @@ abstract class AbstractWidget extends Widget
         $this->registerAsset();
 
         if (self::$userKey === null) {
-          //  self::$userKey = \Yii::$app->security->generateRandomString();
-            self::$userKey = '3456345';
+            self::$userKey = \Yii::$app->security->generateRandomString();
+          //  self::$userKey = '3456345';
         }
 
         // создадим токен доступа к контейнеру
