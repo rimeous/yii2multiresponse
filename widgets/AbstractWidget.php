@@ -83,7 +83,15 @@ abstract class AbstractWidget extends Widget
         // положим в очередь данные этого виджета
         $this->sendToQueue($token);
         
-        self::$containers[self::class] = $token;
+        if (!array_key_exists(self::class, self::$containers) {
+            // если нет данных об этом виджете, создадим
+            self::$containers[self::class] = [
+                'containers' => [],
+                'url' => 'ws://socket-test.loc:3066'
+            ];
+        }
+        // добавим информацию о текущем токене    
+        self::$containers[self::class]['containers'] = $token;
 
         // создание заглушки
         return $this->render($this->view, array_merge($this->data, [
