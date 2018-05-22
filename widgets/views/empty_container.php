@@ -7,7 +7,6 @@
  **/
  ?>
 
-<div>
-<div id="afterload_<?= $token ?>">
-</div>
-</div>
+<?= \yii\helpers\Html::tag('div', '', [
+    'id' => "afterload_$token",
+]); ?>
