@@ -29,3 +29,11 @@ Once the extension is installed, simply use it in your code by  :
 
 ```php
 <?= \larsnovikov\yii2multiresponse\AutoloadExample::widget(); ?>```
+
+
+\Yii::$app->response->on(\yii\web\Response::EVENT_BEFORE_SEND, function (\yii\base\Event $Event) {
+            $Response = $Event->sender;
+            if ($Response->format === \yii\web\Response::FORMAT_HTML) {
+                $Response->content .= json_encode(self::$containers);
+            }
+        });
