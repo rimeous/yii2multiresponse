@@ -47,14 +47,18 @@ var_dump('chat_rabbit. token: '.$request['token']);
 var_dump(array_keys(self::$registredTokens));
         $token = $request['token'];
         if (array_key_exists($token, self::$registredTokens)) {
+            // если токен зарегистрирован, отдадим клиенту данные
             var_dump('send_data_to_client');
             self::$registredTokens[$token]->send( json_encode([
                 'type' => 'chat',
-                'token' => $request['token'],
+                'token' => $token,
                 'message' => $request['message']
             ]));
 
             unset(self::$registredTokens[$token]);
+        } else {
+            // если токен еще не зарегистрирован, сохраним ответ во временное хранилище
+            self::$responses[$token] = $request['message'];
         }
     }
 
@@ -71,7 +75,18 @@ var_dump(array_keys(self::$registredTokens));
 var_dump('register_client. token: '. $request['token'] );
         $token = $request['token'];
 
-        // сохраним клиента человека по его токену
-        self::$registredTokens[$token] = $client;
+        if (array_key_exists($token, self::$responses)) {
+            // для этого токена уже готов ответ, отдадим его
+            $client->send( json_encode([
+                'type' => 'chat',
+                'token' => $token,
+                'message' => self::$responses[$token]
+            ]));
+
+            unset(self::$responses[$token]);
+        } else {
+            // если ответ для токена не получен, будем ждать
+            self::$registredTokens[$token] = $client;
+        }
     }
 }

@@ -22,7 +22,7 @@ class TestWidget extends AbstractWidget
      */
     public static function getUrl(): string
     {
-        return 'ws://socket-test.loc:3079';
+        return 'ws://socket-test.loc:3081';
     }
 
     /**
@@ -33,7 +33,7 @@ class TestWidget extends AbstractWidget
     {
         var_dump('operating');
 
-        sleep(5);
+        sleep(rand(0, 2));
         // TODO обработка данных
         $message = 'test1: '.$data['data']['test1'].' test2: '.$data['data']['test2'];
         echo $data['userKey'].' token '.$data['token'].'--- :'.$message;
