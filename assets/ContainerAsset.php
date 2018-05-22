@@ -25,7 +25,6 @@ class ContainerAsset extends AssetBundle
         'yii\bootstrap\BootstrapAsset'
     ];
 
-
     public $sourcePath = '@vendor/larsnovikov/yii2multiresponse/assets';
 
     public $js = [

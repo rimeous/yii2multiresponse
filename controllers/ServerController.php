@@ -1,7 +1,6 @@
 <?php
 namespace vendor\larsnovikov\yii2multiresponse\controllers;
 
-
 use consik\yii2websocket\WebSocketServer;
 use vendor\larsnovikov\yii2multiresponse\daemons\CommandsServer;
 use yii\console\Controller;
@@ -12,7 +11,10 @@ use yii\console\Controller;
  */
 class ServerController extends Controller
 {
-    public function actionStart()
+    /**
+     * Сокет сервер
+     */
+    public function actionStart(): void
     {
         $server = new CommandsServer();
         $server->port = 3048; //This port must be busy by WebServer and we handle an error

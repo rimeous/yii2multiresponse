@@ -1,6 +1,7 @@
 <?php
 
 namespace vendor\larsnovikov\yii2multiresponse;
+use vendor\larsnovikov\yii2multiresponse\widgets\AbstractWidget;
 
 /**
  * yii2multiresponse module definition class
@@ -19,6 +20,5 @@ class Module extends \yii\base\Module
     {
         parent::init();
 
-        // custom initialization code goes here
     }
 }

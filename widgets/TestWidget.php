@@ -18,7 +18,16 @@ use yii\queue\Queue;
 class TestWidget extends AbstractWidget
 {
     /**
+     * @return string
+     */
+    public static function getUrl(): string
+    {
+        return 'ws://socket-test.loc:3079';
+    }
+
+    /**
      * @param array $data
+     * @throws \WebSocket\BadOpcodeException
      */
     public static function operate(array $data): void
     {
@@ -29,7 +38,7 @@ class TestWidget extends AbstractWidget
         $message = 'test1: '.$data['data']['test1'].' test2: '.$data['data']['test2'];
         echo $data['userKey'].' token '.$data['token'].'--- :'.$message;
 
-        self::sendMessage($message, $data['token'], $data['userKey']);
+        self::sendMessage($message, $data['token']);
     }
 
     /**
