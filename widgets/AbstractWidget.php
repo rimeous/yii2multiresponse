@@ -21,8 +21,9 @@ use yii\helpers\Html;
  */
 abstract class AbstractWidget extends Widget
 {
-
     private static $userKey = null;
+    
+    public static $containers = [];
 
     public $data = [];
 
@@ -81,6 +82,8 @@ abstract class AbstractWidget extends Widget
         echo self::$userKey.' token '.$token.'--- test1:'.$this->data['test1'].' test2: '.$this->data['test2'];
         // положим в очередь данные этого виджета
         $this->sendToQueue($token);
+        
+        self::$containers[self::class] = $token;
 
         // создание заглушки
         return $this->render($this->view, array_merge($this->data, [
