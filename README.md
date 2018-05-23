@@ -25,9 +25,16 @@ to the require section of your `composer.json` file.
 Usage
 -----
 
-Просто унаследуй свой виджет от `vendor\larsnovikov\yii2multiresponse\widgets\AbstractWidget`
+1. Унаследуй свой виджет от `vendor\larsnovikov\yii2multiresponse\widgets\AbstractWidget`
 
-Чтобы все заработало, добавь в конфиг очередь, например:
+2. Добавь в конфиге в `modules`:
+```
+'yii2multiresponse' => [
+    'class' => vendor\larsnovikov\yii2multiresponse\Module::class
+],
+```
+
+3. Добавь в конфиге в `components` очередь, например:
 ```
 'testQueue' => array_merge(
     [
@@ -43,6 +50,7 @@ Usage
     ]
 ),
 ```
+4. Добавь в конфиге в `bootstrap` название компонента очереди
 
 Запуск
 -----
