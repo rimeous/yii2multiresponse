@@ -10,7 +10,7 @@ The preferred way to install this extension is through [composer](http://getcomp
 Either run
 
 ```
-php composer.phar require --prefer-dist larsnovikov/yii2multiresponse "*"
+composer require larsnovikov/yii2multiresponse:^1.0
 ```
 
 or add
