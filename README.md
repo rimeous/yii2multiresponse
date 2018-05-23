@@ -1,4 +1,4 @@
-Afterload
+Multiresponse for Yii2
 =========
 Компонент для дозагрузки контента через websocket
 
