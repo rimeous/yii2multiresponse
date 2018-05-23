@@ -22,20 +22,13 @@ class Queue extends BaseObject implements \yii\queue\JobInterface
     public $data;
 
     /**
-     * @return mixed
-     */
-    public function getQueueComponent()
-    {
-        return $this->widgetClass::getQueueName();
-    }
-
-    /**
      * Обработчик очереди
      * @param string $queue
      */
     public function execute($queue): void
     {
-        $this->widgetClass::operate($this->data);
+        var_dump($this->data);
+        $this->data['widgetClass']::operate($this->data);
     }
 
     /**
@@ -44,7 +37,7 @@ class Queue extends BaseObject implements \yii\queue\JobInterface
      */
     public static function putInQueue($widgetClass, array $data): void
     {
-        $widgetClass::getQueueComponent()->push(new self([
+        \Yii::$app->multiResponseQueue->push(new self([
             'widgetClass' => $widgetClass,
             'data' => $data
         ]));

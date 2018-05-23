@@ -11,7 +11,6 @@ namespace vendor\larsnovikov\yii2multiresponse\widgets;
 use vendor\larsnovikov\yii2multiresponse\assets\ContainerAsset;
 use WebSocket\Client;
 use yii\base\Widget;
-use yii\queue\Queue;
 
 /**
  * Class AbstractWidget
@@ -41,13 +40,7 @@ abstract class AbstractWidget extends Widget
      * Вью пустого контейнера
      * @var string
      */
-    public $view = 'empty_container';
-
-    /**
-     * Компонент очереди
-     * @return Queue
-     */
-    abstract public static function getQueueComponent(): Queue;
+    public $view = '@vendor/larsnovikov/yii2multiresponse/widgets/views/empty_container';
 
     /**
      * Url для посылки запросов
@@ -60,6 +53,14 @@ abstract class AbstractWidget extends Widget
      * @param array $data
      */
     abstract public static function operate(array $data): void;
+
+    /**
+     * @return string
+     */
+    public function getFrontendType(): string
+    {
+        return 'block_html';
+    }
 
     /**
      * Регистрация ассета
@@ -92,7 +93,8 @@ abstract class AbstractWidget extends Widget
         \vendor\larsnovikov\yii2multiresponse\queues\Queue::putInQueue(static::class, [
             'view' => $this->view,
             'data' => $this->data,
-            'token' => $token
+            'token' => $token,
+            'widgetClass' => $this::className()
         ]);
     }
 
@@ -112,7 +114,6 @@ abstract class AbstractWidget extends Widget
      */
     public function createEmptyContainer(string $token): string
     {
-        echo 'token '.$token.'--- test1:'.$this->data['test1'].' test2: '.$this->data['test2'];
         // положим в очередь данные этого виджета
         $this->sendToQueue($token);
 
@@ -137,7 +138,7 @@ abstract class AbstractWidget extends Widget
         \Yii::$app->response->on(\yii\web\Response::EVENT_BEFORE_SEND, function (\yii\base\Event $event) {
             $response = $event->sender;
             if ($response->format === \yii\web\Response::FORMAT_HTML) {
-                $response->data .= $this->render('config', [
+                $response->data .= $this->render('@vendor/larsnovikov/yii2multiresponse/widgets/views/config', [
                     'config' => json_encode(self::$config)
                 ]);
             }
@@ -150,15 +151,18 @@ abstract class AbstractWidget extends Widget
      */
     public function registerContainer(string $token): void
     {
-        if (!array_key_exists($this->getClassName(), self::$config)) {
+        if (!array_key_exists($this->getFrontendType(), self::$config)) {
+            self::$config[$this->getFrontendType()] = [];
+        }
+        if (!array_key_exists($this->getClassName(), self::$config[$this->getFrontendType()])) {
             // если нет данных об этом виджете, создадим
-            self::$config[$this->getClassName()] = [
+            self::$config[$this->getFrontendType()][$this->getClassName()] = [
                 'containers' => [],
                 'url' => static::getUrl()
             ];
         }
         // добавим информацию о текущем токене
-        self::$config[$this->getClassName()]['containers'][] = $token;
+        self::$config[$this->getFrontendType()][$this->getClassName()]['containers'][] = $token;
     }
 
     /**

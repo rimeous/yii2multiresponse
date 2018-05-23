@@ -15,7 +15,7 @@ use yii\queue\Queue;
  * Class TestWidget
  * @package vendor\larsnovikov\yii2multiresponse\widgets
  */
-class TestWidget extends AbstractWidget
+class SuperTestWidget extends AbstractWidget
 {
     /**
      * @return string
@@ -31,9 +31,11 @@ class TestWidget extends AbstractWidget
      */
     public static function operate(array $data): void
     {
+        var_dump('operating');
+
         sleep(rand(1, 4));
         // TODO обработка данных
-        $message = 'test widget';
+        $message = 'super test widget';
 
         self::sendMessage($message, $data['token']);
     }

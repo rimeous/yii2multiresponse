@@ -34,12 +34,13 @@ Usage
 ],
 ```
 
-3. Добавь в конфиге в `components` очередь, например:
+3. Добавь в конфиге в `components` очередь:
+
 ```
-'testQueue' => array_merge(
+'multiResponseQueue' => array_merge(
     [
         'class' => \yii\queue\amqp_interop\Queue::class,
-        'queueName' => 'test.queue'
+        'queueName' => 'multiresponse.queue'
     ],
     [
         'port' => 5672,
