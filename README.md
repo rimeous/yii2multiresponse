@@ -56,4 +56,4 @@ Usage
 Запуск
 -----
 1. Запусти WSServer `php yii yii2multiresponse/server/start <port>`, где `<port>` - номер порта
-2. Запусти слушателей очередей, например: `php yii test-queue/listen`
+2. Запусти слушателей очередей, например: `php yii multi-response-queue/listen`
