@@ -55,14 +55,6 @@ abstract class AbstractWidget extends Widget
     abstract public static function operate(array $data): void;
 
     /**
-     * @return string
-     */
-    public function getFrontendType(): string
-    {
-        return 'block_html';
-    }
-
-    /**
      * Js функция которая будет вызвана после получения контента от WS server
      * @return string
      */
@@ -166,19 +158,16 @@ JS;
      */
     public function registerContainer(string $token): void
     {
-        if (!array_key_exists($this->getFrontendType(), self::$config)) {
-            self::$config[$this->getFrontendType()] = [];
-        }
-        if (!array_key_exists($this->getClassName(), self::$config[$this->getFrontendType()])) {
+        if (!array_key_exists($this->getClassName(), self::$config)) {
             // если нет данных об этом виджете, создадим
-            self::$config[$this->getFrontendType()][$this->getClassName()] = [
+            self::$config[$this->getClassName()] = [
                 'containers' => [],
                 'url' => static::getUrl(),
                 'callback' => '/Function('.trim($this->getCallbackFunction()).')/'
             ];
         }
         // добавим информацию о текущем токене
-        self::$config[$this->getFrontendType()][$this->getClassName()]['containers'][] = $token;
+        self::$config[$this->getClassName()]['containers'][] = $token;
     }
 
     /**

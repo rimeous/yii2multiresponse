@@ -10,7 +10,7 @@ $(document).ready(function() {
             return value;
         });
 
-        $.each(config.block_html, function(index, widget) {
+        $.each(config, function(index, widget) {
             let url = widget.url;
             let socket = new WebSocket(url);
             socket.onopen = function(e) {
@@ -26,5 +26,5 @@ $(document).ready(function() {
                 callbackFunction(response);
             };
         });
-    })
+    });
 });

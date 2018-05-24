@@ -27,7 +27,6 @@ class Queue extends BaseObject implements \yii\queue\JobInterface
      */
     public function execute($queue): void
     {
-        var_dump($this->data);
         $this->data['widgetClass']::operate($this->data);
     }
 
