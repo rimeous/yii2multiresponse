@@ -1,6 +1,14 @@
 $(document).ready(function() {
     $(function() {
-        let config = JSON.parse($('#afterload_config').text());
+        let config = JSON.parse($('#afterload_config').text(), function(key, value) {
+            if (typeof value === "string" &&
+                value.startsWith("/Function(") &&
+                value.endsWith(")/")) {
+                value = value.substring(10, value.length - 2);
+                return eval("(" + value + ")");
+            }
+            return value;
+        });
 
         $.each(config.block_html, function(index, widget) {
             let url = widget.url;
@@ -14,9 +22,8 @@ $(document).ready(function() {
 
             socket.onmessage = function(e) {
                 let response = JSON.parse(e.data);
-                console.log(response.token);
-                console.log(response.message);
-                $('#afterload_'+response.token).html(response.message)
+                let callbackFunction = widget.callback;
+                callbackFunction(response);
             };
         });
     })

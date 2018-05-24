@@ -63,6 +63,21 @@ abstract class AbstractWidget extends Widget
     }
 
     /**
+     * Js функция которая будет вызвана после получения контента от WS server
+     * @return string
+     */
+    public function getCallbackFunction(): string
+    {
+        return <<<JS
+function (response) {
+             console.log(response.token);
+             console.log(response.message);
+             $('#afterload_'+response.token).html(response.message);
+        }
+JS;
+    }
+
+    /**
      * Регистрация ассета
      */
     public function registerAsset(): void
@@ -158,7 +173,8 @@ abstract class AbstractWidget extends Widget
             // если нет данных об этом виджете, создадим
             self::$config[$this->getFrontendType()][$this->getClassName()] = [
                 'containers' => [],
-                'url' => static::getUrl()
+                'url' => static::getUrl(),
+                'callback' => '/Function('.trim($this->getCallbackFunction()).')/'
             ];
         }
         // добавим информацию о текущем токене
@@ -175,6 +191,7 @@ abstract class AbstractWidget extends Widget
         if (!self::$wsServer instanceof Client) {
             self::$wsServer = new Client(static::getUrl());
         }
+
         self::$wsServer->send(json_encode([
             'action' => 'chat',
             'message' => $message,
