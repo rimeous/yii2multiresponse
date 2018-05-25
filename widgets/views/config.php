@@ -7,7 +7,4 @@
  */
 ?>
 
-<?= \yii\helpers\Html::tag('div', $config, [
-    'id' => 'afterload_config',
-    'style' => 'display:none'
-]) ?>
+<?= \yii\helpers\Html::tag('script', "(function(){window.widgetConfig = $config})();") ?>

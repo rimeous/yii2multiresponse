@@ -145,9 +145,10 @@ JS;
         \Yii::$app->response->on(\yii\web\Response::EVENT_BEFORE_SEND, function (\yii\base\Event $event) {
             $response = $event->sender;
             if ($response->format === \yii\web\Response::FORMAT_HTML) {
-                $response->data .= $this->render('@vendor/larsnovikov/yii2multiresponse/widgets/views/config', [
+                $configData = $this->render('@vendor/larsnovikov/yii2multiresponse/widgets/views/config', [
                     'config' => json_encode(self::$config)
                 ]);
+                $response->data = str_replace('<head>', "<head>$configData", $response->data);
             }
         });
     }
